@@ -33,9 +33,6 @@ func (km *KeyMutex) ilock(idx uint) {
 func (km *KeyMutex) iunlock(idx uint) {
 	km.locks[idx%km.count].Unlock()
 }
-func (km *KeyMutex) iunlock(idx uint) {
-	km.locks[idx].Unlock()
-}
 
 // Lock the key
 func (km *KeyMutex) Lock(key string) {

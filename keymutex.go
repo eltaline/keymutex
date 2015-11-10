@@ -43,10 +43,10 @@ func (km *KeyMutex) UnlockID(idx uint) {
 }
 
 func (km *KeyMutex) LockID64(idx uint64) {
-	km.locks[idx%km.count].Lock()
+	km.locks[idx%uint64(km.count)].Lock()
 }
 func (km *KeyMutex) UnlockID64(idx uint64) {
-	km.locks[idx%km.count].Unlock()
+	km.locks[idx%uint64(km.count)].Unlock()
 }
 
 // Lock the key

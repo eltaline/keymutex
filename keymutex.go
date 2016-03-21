@@ -4,16 +4,15 @@ import (
 	"sync"
 )
 
-// KeyMutex ...
+// KeyMutex a hash key mutex
 type KeyMutex struct {
 	locks  []sync.Mutex
 	count  uint
 	handle HashHandle
 }
 
-// New and initialize a new keymutex, ready for use.
-// It require the number of mutexs(prime number is better) that you need and
-// a hash handle(ELFHash, SDBMHash ...).
+// New return a keymutex
+// It require the number of mutexs(prime number is better)
 func New(count uint) *KeyMutex {
 	var this KeyMutex
 	this.count = count
@@ -22,6 +21,7 @@ func New(count uint) *KeyMutex {
 	return &this
 }
 
+// NewByHash new a keymutex with a hashhandle
 func NewByHash(count uint, handle HashHandle) *KeyMutex {
 	var this KeyMutex
 	this.count = count
@@ -35,18 +35,14 @@ func (km *KeyMutex) Count() uint {
 	return km.count
 }
 
+// LockID lock by idx
 func (km *KeyMutex) LockID(idx uint) {
 	km.locks[idx%km.count].Lock()
 }
+
+// UnlockID unlock by idx
 func (km *KeyMutex) UnlockID(idx uint) {
 	km.locks[idx%km.count].Unlock()
-}
-
-func (km *KeyMutex) LockID64(idx uint64) {
-	km.locks[idx%uint64(km.count)].Lock()
-}
-func (km *KeyMutex) UnlockID64(idx uint64) {
-	km.locks[idx%uint64(km.count)].Unlock()
 }
 
 // Lock the key
